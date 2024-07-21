@@ -1,0 +1,32 @@
+{
+    "account": [
+        {
+            "id": "ee",
+            "pw": "ee"
+        }
+    ],
+    "character": [
+        {
+            "name": "dodo",
+            "skill": "Freeze",
+            "level": 1,
+            "hp": 10,
+            "mp": 10,
+            "power": 10,
+            "physical_defence": 10,
+            "magic_defence": 10,
+            "exp": 0
+        },
+        {
+            "name": "boo",
+            "skill": "Freeze",
+            "level": 1,
+            "hp": 10,
+            "mp": 10,
+            "power": 10,
+            "physical_defence": 10,
+            "magic_defence": 10,
+            "exp": 0
+        }
+    ]
+}

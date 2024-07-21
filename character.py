@@ -14,7 +14,7 @@ import random
 
 class Character:
 
-    skill = ['DoubleAttack', 'Freeze']
+    skill = ['double_attack', 'freeze', 'instant_death']
 
     def __init__ (self, name):
         self.name = name
@@ -29,10 +29,25 @@ class Character:
         self.physical_defence = 10
         self.magic_defence = 10
         print()
-        print(f'{name} 캐릭터가 생성되었습니다')
+        print(f'{name} 캐릭터가 생성 되었습니다')
         print(f'스킬은 {self.skill} 을 부여 받았습니다')
         print(f'캐릭터 레벨은 {self.level} 이며')
-        print(f'기본 hp는 {self.hp} mp는 {self.mp}, 공격력은 {self.power} 물리방어력은 {self.physical_defence} 마법방어력은 {self.magic_defence} 입니다')
+        print(f'기본 hp는 {self.hp} mp는 {self.mp}, 공격력은 {self.power} 물리방어력은 {self.physical_defence} 마법방어력은 {self.magic_defence} 경험치는 {self.exp}입니다')
+        
+    def obj(self):
+        obj =  {
+            'name': self.name,
+            'skill': self.skill,
+            'level': self.level,
+            'hp': self.hp,
+            'mp': self.mp,
+            'power': self.power,
+            'physical_defence': self.physical_defence,
+            'magic_defence': self.magic_defence,
+            'exp': self.exp
+            }
+        
+        return obj
 
     # 무기착용
     # 방어구 착용
