@@ -23,9 +23,9 @@ class Character:
         self.armor = []
         self.exp = 0
         self.level = 1
-        self.hp = 10
+        self.hp = 100
         self.mp = 10
-        self.power = 10
+        self.power = 20
         self.physical_defence = 10
         self.magic_defence = 10
         print()
@@ -48,6 +48,12 @@ class Character:
             }
         
         return obj
+    
+    def attack(self, target):
+        damage = random.randrange(self.power/2, self.power) - target.physical_defence
+        if damage > 0:
+            target.hp -= damage
+        print(f'{self.name}가 {target.type["name"]}에게 {damage}의 데미지를 입혔습니다. {target.type["name"]}의 남은 HP: {target.hp}')
 
     # 무기착용
     # 방어구 착용
