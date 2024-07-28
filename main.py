@@ -64,7 +64,7 @@ if login_state:
                 file_path = './save.json'
                 with open(file_path, "r") as save_json:
                     json_data = json.load(save_json)
-                    json_data['character'].append(character.obj())
+                    json_data['character'].append(character.state())
                 with open (file_path, 'w', encoding="UTF-8")as json_file:
                     json.dump(json_data, json_file, indent=4, ensure_ascii=False)
 

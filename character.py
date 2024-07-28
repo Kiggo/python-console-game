@@ -14,7 +14,7 @@ import random
 
 class Character:
 
-    skill = ['double_attack', 'freeze', 'instant_death']
+    skill = ['double_attack', 'fireball', 'power_slash']
 
     def __init__ (self, name):
         self.name = name
@@ -23,18 +23,20 @@ class Character:
         self.armor = []
         self.exp = 0
         self.level = 1
-        self.hp = 100
-        self.mp = 10
+        self.hp = 500
+        self.mp = 50
+        self.max_hp = self.hp
+        self.max_mp = self.mp
         self.power = 20
         self.physical_defence = 10
         self.magic_defence = 10
         print()
         print(f'{name} 캐릭터가 생성 되었습니다')
-        print(f'스킬은 {self.skill} 을 부여 받았습니다')
+        print(f'스킬은 {self.skill}을 부여 받았습니다')
         print(f'캐릭터 레벨은 {self.level} 이며')
         print(f'기본 hp는 {self.hp} mp는 {self.mp}, 공격력은 {self.power} 물리방어력은 {self.physical_defence} 마법방어력은 {self.magic_defence} 경험치는 {self.exp}입니다')
         
-    def obj(self):
+    def state(self):
         obj =  {
             'name': self.name,
             'skill': self.skill,
@@ -46,15 +48,29 @@ class Character:
             'magic_defence': self.magic_defence,
             'exp': self.exp
             }
-        
         return obj
     
     def attack(self, target):
         damage = random.randrange(self.power/2, self.power) - target.physical_defence
-        if damage > 0:
+        if damage > 0 and self.mp > 0:
+            target.hp -= damage * 2
+            self.mp -= 50
+        else:
             target.hp -= damage
-        print(f'{self.name}가 {target.type}에게 {damage}의 데미지를 입혔습니다. {target.type}의 남은 HP: {target.hp}')
+        print(f'{self.name}가 {target.type}에게 {damage}의 데미지를 입혔습니다. {target.type}의 남은 HP: {target.hp}\n')
 
+    def level_up(self):
+        self.level += 1
+        self.max_hp += 100
+        self.max_mp += 100
+        self.hp = self.max_hp
+        self.mp = self.max_mp
+        self.power += 10
+        self.physical_defence += 5
+        self.magic_defence += 5
+        if self.exp >= 100:
+            self.exp = 0
+        print(f'{self.name}가 레벨업 했습니다!!!')
 
 
     # 무기착용
