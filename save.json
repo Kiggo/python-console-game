@@ -1,30 +1,31 @@
 {
-    "account": [
-        {
-            "id": "ee",
-            "pw": "ee"
-        }
-    ],
+    "account": {
+        "id": "kitae",
+        "pw": "kitae"
+    },
     "character": [
         {
-            "name": "dodo",
-            "skill": "Freeze",
-            "level": 1,
-            "hp": 18,
-            "mp": -30,
-            "power": 20,
-            "physical_defence": 10,
-            "magic_defence": 10,
-            "exp": 54
-        },
-        {
-            "name": "boo",
-            "skill": "Freeze",
-            "level": 1,
-            "hp": 10,
-            "mp": 10,
-            "power": 10,
-            "physical_defence": 10,
+            "name": "kiki",
+            "skill": "fireball",
+            "equipment": [
+                "Helmet",
+                "Boots",
+                "Weapon"
+            ],
+            "items": [
+                "Chestplate",
+                "Gauntlets",
+                "Helmet",
+                "Boots",
+                "Weapon"
+            ],
+            "level": 15,
+            "hp": 1650,
+            "mp": 1150,
+            "max_hp": 1650,
+            "max_mp": 1150,
+            "power": 170,
+            "physical_defence": 20,
             "magic_defence": 10,
             "exp": 0
         }

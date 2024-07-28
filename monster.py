@@ -33,7 +33,7 @@ class Monster:
         return random.choice(self.drop_items)
     
     def attack(self, target):
-        damage = random.randrange(self.power/2, self.power) - target.physical_defence  # 몬스터의 고정 데미지
+        damage = random.randrange(self.power / 2, self.power) - target.physical_defence  # 몬스터의 고정 데미지
         if damage > 0:
             target.hp -= damage
         print(f'{self.type}가 {target.name}에게 {damage}의 데미지를 입혔습니다. {target.name}의 남은 HP: {target.hp}\n')

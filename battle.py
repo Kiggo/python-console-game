@@ -16,11 +16,14 @@ class Battle:
 
         for character in json_data['character']:
             if self.character.name == character['name']:
-                character['hp'] = self.character.hp
-                character['mp'] = self.character.mp
+                character['hp'] = self.character.max_hp
+                character['mp'] = self.character.max_mp
+                character['max_hp'] = self.character.max_hp
+                character['max_mp'] = self.character.max_mp
                 character['power'] = self.character.power
                 character['exp'] = self.character.exp
                 character['level'] = self.character.level
+                character['items'] = self.character.items
                 break
 
         with open('./save.json', 'w') as save_json:
@@ -37,6 +40,8 @@ class Battle:
                 self.character.exp += exp
                 if self.character.exp >= 100:
                     self.character.level_up()
+                if item not in self.character.items:
+                    self.character.items.append(item)
                 print(f'{monster.type}를 물리치고 {item} 아이템과 {exp} 경험치를 얻었습니다. 현재 경험치는 {self.character.exp} 입니다.')
                 self.save_character()  # 캐릭터 정보를 저장
                 break
@@ -69,5 +74,7 @@ class Battle:
         for thread in self.threads:
             thread.join()
 
+
     def start(self):
         self.start_battle()  # 전투시작
+        
