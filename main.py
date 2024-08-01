@@ -2,7 +2,6 @@ from character import Character
 from monster import Monster
 from battle import Battle
 from account import Account
-from location import Location_State
 import random
 import json
 
@@ -98,11 +97,9 @@ if login_state:
     # 3. 마을 또는 사냥터 이동
     while True:
         # 로그인하면 마을에서 시작하고 사냥터로 이동
-        location_state = Location_State(select_character)
 
         move = input('\n던전으로 이동하시려면 y, 장비를 착용하려면 n을 눌러주세요 ... input (y/n)\n')
         if move == 'y':
-            location_state.enter_dungeon()
 
             # 어떤 몬스터를 만나는건 랜덤
             # 몬스터 인스턴스 생성 (2~5마리 랜덤)
@@ -113,7 +110,6 @@ if login_state:
             battle.start()
 
             # 전투 이후 마을 이동
-            location_state.enter_town()
             continue
 
         elif move == 'n':
