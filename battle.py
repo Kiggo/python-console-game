@@ -1,14 +1,15 @@
 import threading
 import time
 import json
+import queue  # Import queue
 
 class Battle:
     def __init__(self, character, monsters):
         self.character = character
         self.monsters = monsters
         self.threads = []
-        self.character_alive = True
-        self.lock = threading.Lock()  # Add a lock to synchronize access
+        self.character_alive = queue.Queue()  # Use a queue to manage character state
+        self.character_alive.put(True)
 
     def save_character(self):
         with open('./save.json', 'r') as save_json:
@@ -52,11 +53,10 @@ class Battle:
         while self.character.hp > 0 and monster.hp > 0 and self.character_alive:
             monster.attack(self.character)
             if self.character.hp <= 0:
-                with self.lock:
-                    if self.character_alive:
-                        print(f'{self.character.name}가 쓰러졌습니다.')
-                        self.character_alive = False
-                break
+                if self.character_alive:
+                    print(f'{self.character.name}가 쓰러졌습니다.')
+                    self.character_alive.put(False)
+                    break
             
             time.sleep(0.5)  # 몬스터의 공격 텀
 
@@ -74,7 +74,5 @@ class Battle:
         for thread in self.threads:
             thread.join()
 
-
     def start(self):
         self.start_battle()  # 전투시작
-        
