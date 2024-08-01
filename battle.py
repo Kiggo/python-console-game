@@ -1,14 +1,14 @@
 import threading
 import time
 import json
-import queue  # Import queue
+import queue 
 
 class Battle:
     def __init__(self, character, monsters):
         self.character = character
         self.monsters = monsters
         self.threads = []
-        self.character_alive = queue.Queue()  # Use a queue to manage character state
+        self.character_alive = queue.Queue()  
         self.character_alive.put(True)
 
     def save_character(self):
@@ -44,7 +44,7 @@ class Battle:
                 if item not in self.character.items:
                     self.character.items.append(item)
                 print(f'{monster.type}를 물리치고 {item} 아이템과 {exp} 경험치를 얻었습니다. 현재 경험치는 {self.character.exp} 입니다.')
-                self.save_character()  # 캐릭터 정보를 저장
+                self.save_character()  # 캐릭터 정보 저장
                 break
             
             time.sleep(0.5)  # 캐릭터의 공격 텀

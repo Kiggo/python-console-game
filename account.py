@@ -1,10 +1,5 @@
 import json
 
-# [계정]
-# - 여러명의 캐릭터
-# - 소지품
-# save.json 에서 가져온 정보를 토대로 구성됨
-
 class Account:
 
     def __init__(self, id, pw):

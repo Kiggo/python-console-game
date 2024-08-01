@@ -1,15 +1,3 @@
-# [캐릭터]
-# - 이름
-# - 스킬 - DoubleAttack, Freeze 
-# - 장비(착용부위) Weapon, Helmet, Chestplate, Gauntlets, Boots  
-# - 레벨
-# - hp 
-# - mp 
-# - 공격력
-# - 물리방어력
-# - 마법방어력
-# - 우선순위(같으면랜덤)
-
 import random
 import time
 
@@ -31,6 +19,7 @@ class Character:
         self.power = 20
         self.physical_defence = 10
         self.magic_defence = 10
+        self.state = 'Town'
         
     def state(self):
         obj =  {
@@ -46,7 +35,8 @@ class Character:
             'power': self.power,
             'physical_defence': self.physical_defence,
             'magic_defence': self.magic_defence,
-            'exp': self.exp
+            'exp': self.exp,
+            'state': self.state
             }
         return obj
     
@@ -83,11 +73,15 @@ class Character:
             print(f'{self.name}의 MP가 회복되었습니다. 현재 MP: {self.mp}')
             time.sleep(1)  # 1초 대기
 
-    # 무기착용
-    # 방어구 착용
-    # hp 변화
-    # mp 변화
-    # 경험치 변화
-    # 공격력 변화
-    # 물리 방어력 변화
-    # 마법 방어력 변화
+    def enter_town(self):
+        if self.state != 'Town':
+            self.state = 'Town'
+            self.character.hp = self.character.max_hp
+            self.character.mp = self.character.max_mp
+            print(f'{self.character.name}가 마을에 도착했습니다. hp 회복 {self.character.hp} mp 회복 {self.character.mp}.')
+
+    def enter_dungeon(self):
+        if self.state != 'Dungeon':
+            self.state = 'Dungeon'
+            print(f'{self.character.name}가 던전에 들어갔습니다.')
+
