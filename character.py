@@ -3,11 +3,11 @@ import time
 
 class Character:
 
-    skill = ['double_attack', 'fireball', 'power_slash']
+    skill_set = {'double_attack':20, 'fireball':25, 'power_slash':30}
 
     def __init__ (self, name):
         self.name = name
-        self.skill = random.choice(self.skill)
+        self.skill = random.choice(list(self.skill_set.keys()))
         self.equipment = []
         self.items = []
         self.exp = 0
@@ -20,8 +20,10 @@ class Character:
         self.physical_defence = 10
         self.magic_defence = 10
         self.state = 'Town'
+        self.skill_cooldown = 0
+        self.last_skill_time = 0
         
-    def state(self):
+    def current_state(self):
         obj =  {
             'name': self.name,
             'skill': self.skill,
@@ -36,19 +38,34 @@ class Character:
             'physical_defence': self.physical_defence,
             'magic_defence': self.magic_defence,
             'exp': self.exp,
-            'state': self.state
+            'state': self.state,
+            'skill_cooldown': self.skill_cooldown,
+            'last_skill_time': self.last_skill_time
             }
+        print(obj)
         return obj
     
     def attack(self, target):
         damage = random.randrange(self.power / 2, self.power) - target.physical_defence
-        if damage > 0 and self.mp >= 20:
+        current_time = time.time()
+        if current_time - self.last_skill_time < self.skill_cooldown:
+            remaining_cooldown = self.skill_cooldown - (current_time - self.last_skill_time)
+            print(f'{self.name}의 스킬이 쿨타임 중입니다. 남은 쿨타임: {remaining_cooldown:.2f}초')
+            # 일반공격
+            target.hp -= damage
+            print(f'{self.name}가 {target.type}에게 {damage}의 데미지를 입혔습니다. {target.type}의 남은 HP: {target.hp}\n')
+            return  # 쿨타임 중이면 스킬 사용 불가
+        
+        if damage > 0 and self.mp >= self.skill_set[self.skill]:
             print(f'스킬공격 {self.skill}')
-            self.mp -= 20
-            target.hp -= damage * 2
+            self.mp -= self.skill_set[self.skill]
+            target.hp -= (damage + self.skill_set[self.skill])
+            self.last_skill_time  = current_time
+            self.skill_cooldown = 5
+            print(f'{self.name}가 {target.type}에게 {self.skill} 스킬을 이용하여 {(damage + self.skill_set[self.skill])}의 데미지를 입혔습니다. {target.type}의 남은 HP: {target.hp}\n')
         else:
             target.hp -= damage
-        print(f'{self.name}가 {target.type}에게 {damage}의 데미지를 입혔습니다. {target.type}의 남은 HP: {target.hp}\n')
+            print(f'{self.name}가 {target.type}에게 {damage}의 데미지를 입혔습니다. {target.type}의 남은 HP: {target.hp}\n')
 
     def level_up(self):
         self.level += 1
@@ -67,21 +84,22 @@ class Character:
         self.equipment.append(item)
         print(f'{self.name}가 {item}을 착용했습니다.')
 
-    def recover_mp(self, amount):
-        for _ in range(amount):  # 회복할 양만큼 반복
-            self.mp = min(self.max_mp, self.mp + 1)  # 1씩 회복
-            print(f'{self.name}의 MP가 회복되었습니다. 현재 MP: {self.mp}')
-            time.sleep(1)  # 1초 대기
-
+    def recover_mp(self):
+        while self.hp > 0:  
+            self.mp = min(self.max_mp, self.mp + 1) 
+            print(f'전투중 {self.name} 의 MP가 회복되었습니다. 현재 MP: {self.mp}')
+            print()
+            time.sleep(1)
+    
     def enter_town(self):
         if self.state != 'Town':
             self.state = 'Town'
-            self.character.hp = self.character.max_hp
-            self.character.mp = self.character.max_mp
-            print(f'{self.character.name}가 마을에 도착했습니다. hp 회복 {self.character.hp} mp 회복 {self.character.mp}.')
+            self.hp = self.max_hp
+            self.mp = self.max_mp
+            print(f'{self.name}가 마을에 도착했습니다. hp 회복 {self.hp} mp 회복 {self.mp}.')
 
     def enter_dungeon(self):
         if self.state != 'Dungeon':
             self.state = 'Dungeon'
-            print(f'{self.character.name}가 던전에 들어갔습니다.')
+            print(f'{self.name}가 던전에 들어갔습니다.')
 

@@ -73,7 +73,7 @@ if login_state:
                     select_character.max_mp = character['max_mp']
                     select_character.equipment = character['equipment']
                     select_character.items = character['items']
-                    
+
                     print(f'{character["name"]} 캐릭터 정보를 가져옵니다.')
                     print(f'스킬은 {character["skill"]} 을 부여 받았습니다')
                     print(f'캐릭터 레벨은 {character["level"]} 이며')
@@ -90,7 +90,7 @@ if login_state:
                 file_path = './save.json'
                 with open(file_path, "r") as save_json:
                     json_data = json.load(save_json)
-                    json_data['character'].append(character.state())
+                    json_data['character'].append(character.current_state())
                 with open (file_path, 'w', encoding="UTF-8")as json_file:
                     json.dump(json_data, json_file, indent=4, ensure_ascii=False)
 
@@ -98,8 +98,10 @@ if login_state:
     while True:
         # 로그인하면 마을에서 시작하고 사냥터로 이동
 
-        move = input('\n던전으로 이동하시려면 y, 장비를 착용하려면 n을 눌러주세요 ... input (y/n)\n')
-        if move == 'y':
+        move_input = input('\n던전으로 이동하시려면 y, 장비를 착용하려면 n을 눌러주세요 ... input (y/n)\n')
+
+        if move_input == 'y':
+            select_character.enter_dungeon()
 
             # 어떤 몬스터를 만나는건 랜덤
             # 몬스터 인스턴스 생성 (2~5마리 랜덤)
@@ -110,9 +112,13 @@ if login_state:
             battle.start()
 
             # 전투 이후 마을 이동
+            select_character.enter_town()
             continue
 
-        elif move == 'n':
+        elif move_input == 'n':
+            select_character.enter_town()
+
+            print('현재 착용 중인 아이템은:', ', '.join(select_character.equipment) if select_character.equipment else '없습니다.')
             print('현재 보유 중인 아이템은:', ', '.join(select_character.items) if select_character.items else '없습니다.')
             equip_item = input('착용할 장비의 이름을 입력하세요 (없으면 그냥 엔터): ')
             if equip_item:
@@ -124,7 +130,7 @@ if login_state:
                     file_path = './save.json'
                     with open(file_path, "r") as save_json:
                         json_data = json.load(save_json)
-                        for character in json_data['character']:
+                        for character in json_data['character']:    
                             if character['name'] == select_character.name:
                                 character['equipment'] = select_character.equipment  # 착용 중인 장비 업데이트
                                 character['items'] = select_character.items  # 보유 중인 아이템 업데이트
@@ -139,5 +145,5 @@ if login_state:
                     print(f'{equip_item}을 착용하고 저장했습니다.')
                 else:
                     print('해당 아이템이 없습니다.')
-            else:
-                continue
+        else:
+            continue

@@ -24,12 +24,16 @@ class Battle:
                 character['power'] = self.character.power
                 character['exp'] = self.character.exp
                 character['level'] = self.character.level
+                character['equipment'] = self.character.equipment
                 character['items'] = self.character.items
                 break
 
         with open('./save.json', 'w') as save_json:
             json.dump(json_data, save_json, indent=4)
         print(f'{self.character.name}의 정보가 저장되었습니다.')
+
+    def state(self):
+        self.character.current_state()
 
     def battle_with_monster(self, monster):
         while self.character.hp > 0 and monster.hp > 0 and self.character_alive:
@@ -61,6 +65,11 @@ class Battle:
             time.sleep(0.5)  # 몬스터의 공격 텀
 
     def start_battle(self):
+
+        recover_mp = threading.Thread(target=self.character.recover_mp) 
+        recover_mp.daemon = True
+        recover_mp.start()
+        
         for monster in self.monsters:
             thread = threading.Thread(target=self.monster_attack, args=(monster,))
             self.threads.append(thread)
@@ -71,8 +80,6 @@ class Battle:
             if not self.character_alive:
                 break
 
-        for thread in self.threads:
-            thread.join()
 
     def start(self):
         self.start_battle()  # 전투시작

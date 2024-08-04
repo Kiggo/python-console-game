@@ -10,24 +10,24 @@
             "equipment": [
                 "Helmet",
                 "Boots",
-                "Weapon"
+                "Weapon",
+                "Gauntlets"
             ],
             "items": [
                 "Chestplate",
-                "Gauntlets",
                 "Helmet",
                 "Boots",
                 "Weapon"
             ],
-            "level": 15,
-            "hp": 1650,
-            "mp": 1150,
-            "max_hp": 1650,
-            "max_mp": 1150,
-            "power": 170,
+            "level": 20,
+            "hp": 2150,
+            "mp": 1650,
+            "max_hp": 2150,
+            "max_mp": 1650,
+            "power": 230,
             "physical_defence": 20,
             "magic_defence": 10,
-            "exp": 0
+            "exp": 51
         }
     ]
 }
