@@ -6,28 +6,37 @@
     "character": [
         {
             "name": "kiki",
-            "skill": "fireball",
-            "equipment": [
-                "Helmet",
-                "Boots",
-                "Weapon",
-                "Gauntlets"
-            ],
-            "items": [
-                "Chestplate",
-                "Helmet",
-                "Boots",
-                "Weapon"
-            ],
-            "level": 20,
-            "hp": 2150,
-            "mp": 1650,
-            "max_hp": 2150,
-            "max_mp": 1650,
-            "power": 230,
-            "physical_defence": 20,
+            "skill": "power_slash",
+            "equipment": [],
+            "items": [],
+            "level": 1,
+            "hp": 300,
+            "mp": 50,
+            "max_hp": 300,
+            "max_mp": 50,
+            "power": 20,
+            "physical_defence": 10,
             "magic_defence": 10,
-            "exp": 51
+            "exp": 0,
+            "location": "Town"
+        },
+        {
+            "name": "elel",
+            "skill": "power_slash",
+            "equipment": [],
+            "items": [
+                "Boots"
+            ],
+            "level": 1,
+            "hp": 300,
+            "mp": 50,
+            "max_hp": 300,
+            "max_mp": 50,
+            "power": 20,
+            "physical_defence": 10,
+            "magic_defence": 10,
+            "exp": 19,
+            "location": "Town"
         }
     ]
 }

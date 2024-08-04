@@ -9,4 +9,6 @@ character = Character('dodo')
 
 # 전투
 battle = Battle(character, monsters)
+
+# battle.state()
 battle.start()

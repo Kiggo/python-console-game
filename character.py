@@ -3,7 +3,7 @@ import time
 
 class Character:
 
-    skill_set = {'double_attack':20, 'fireball':25, 'power_slash':30}
+    skill_set = {'double_attack': 20, 'fireball': 25, 'power_slash': 30}
 
     def __init__ (self, name):
         self.name = name
@@ -19,11 +19,11 @@ class Character:
         self.power = 20
         self.physical_defence = 10
         self.magic_defence = 10
-        self.state = 'Town'
+        self.location = 'Town'
         self.skill_cooldown = 0
         self.last_skill_time = 0
         
-    def current_state(self):
+    def character_state(self):
         obj =  {
             'name': self.name,
             'skill': self.skill,
@@ -38,11 +38,8 @@ class Character:
             'physical_defence': self.physical_defence,
             'magic_defence': self.magic_defence,
             'exp': self.exp,
-            'state': self.state,
-            'skill_cooldown': self.skill_cooldown,
-            'last_skill_time': self.last_skill_time
+            'location': self.location,
             }
-        print(obj)
         return obj
     
     def attack(self, target):
@@ -74,8 +71,8 @@ class Character:
         self.hp = self.max_hp
         self.mp = self.max_mp
         self.power += 10
-        self.physical_defence += 5
-        self.magic_defence += 5
+        self.physical_defence += 1
+        self.magic_defence += 1
         if self.exp >= 100:
             self.exp = 0
         print(f'{self.name}가 레벨업 했습니다!!!')
@@ -85,21 +82,21 @@ class Character:
         print(f'{self.name}가 {item}을 착용했습니다.')
 
     def recover_mp(self):
-        while self.hp > 0:  
+        while self.hp > 0 and self.location == 'Dungeon':  
             self.mp = min(self.max_mp, self.mp + 1) 
             print(f'전투중 {self.name} 의 MP가 회복되었습니다. 현재 MP: {self.mp}')
             print()
             time.sleep(1)
     
     def enter_town(self):
-        if self.state != 'Town':
-            self.state = 'Town'
+        if self.location != 'Town':
+            self.location = 'Town'
             self.hp = self.max_hp
             self.mp = self.max_mp
             print(f'{self.name}가 마을에 도착했습니다. hp 회복 {self.hp} mp 회복 {self.mp}.')
 
     def enter_dungeon(self):
-        if self.state != 'Dungeon':
-            self.state = 'Dungeon'
+        if self.location != 'Dungeon':
+            self.location = 'Dungeon'
             print(f'{self.name}가 던전에 들어갔습니다.')
 

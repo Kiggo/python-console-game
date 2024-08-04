@@ -36,8 +36,9 @@ class Battle:
         self.character.current_state()
 
     def battle_with_monster(self, monster):
-        while self.character.hp > 0 and monster.hp > 0 and self.character_alive:
+        while self.character.hp > 0 and monster.hp > 0 and self.character_alive.get():
             self.character.attack(monster)
+            self.character_alive.put(True)
             if monster.hp <= 0:
                 print(f'{monster.type}를 물리쳤습니다!')
                 item = monster.drop_item()
@@ -54,18 +55,18 @@ class Battle:
             time.sleep(0.5)  # 캐릭터의 공격 텀
 
     def monster_attack(self, monster):
-        while self.character.hp > 0 and monster.hp > 0 and self.character_alive:
+        while self.character.hp > 0 and monster.hp > 0 and self.character_alive.get():  # 캐릭터 생존 상태 확인
             monster.attack(self.character)
+            self.character_alive.put(True)
             if self.character.hp <= 0:
-                if self.character_alive:
+                if self.character_alive.get():  # 캐릭터가 쓰러졌다면
                     print(f'{self.character.name}가 쓰러졌습니다.')
-                    self.character_alive.put(False)
+                    self.character_alive.put(False)  # 생존 상태를 False로 설정
                     break
             
             time.sleep(0.5)  # 몬스터의 공격 텀
 
     def start_battle(self):
-
         recover_mp = threading.Thread(target=self.character.recover_mp) 
         recover_mp.daemon = True
         recover_mp.start()
@@ -77,9 +78,8 @@ class Battle:
 
         for monster in self.monsters:
             self.battle_with_monster(monster)
-            if not self.character_alive:
-                break
-
+            if not self.character_alive:  # 캐릭터가 쓰러졌다면
+                break  # 전투 종료
 
     def start(self):
         self.start_battle()  # 전투시작

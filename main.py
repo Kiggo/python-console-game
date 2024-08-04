@@ -78,19 +78,42 @@ if login_state:
                     print(f'스킬은 {character["skill"]} 을 부여 받았습니다')
                     print(f'캐릭터 레벨은 {character["level"]} 이며')
                     print(f'hp는 {character["hp"]} mp는 {character["mp"]}, 공격력은 {character["power"]} 물리방어력은 {character["physical_defence"]} 마법방어력은 {character["magic_defence"]} 경험치는 {character["exp"]}입니다')
+                    break
+            else:
+                # 캐릭터가 존재하지 않을 경우 캐릭터 생성
+                print(f'{character_name} 캐릭터가 존재하지 않습니다. 새로 생성합니다.')
+                select_character = Character(character_name)
+
+                print(f'{select_character.name} 캐릭터를 생성했습니다.')
+                print(f'스킬은 {select_character.skill} 을 부여 받았습니다')
+                print(f'캐릭터 레벨은 {select_character.level} 이며')
+                print(f'hp는 {select_character.hp} mp는 {select_character.mp}, 공격력은 {select_character.power} 물리방어력은 {select_character.physical_defence} 마법방어력은 {select_character.magic_defence} 경험치는 {select_character.exp}입니다')
+
+                # 2. 정보 save.json에 저장
+                if select_character:
+                    file_path = './save.json'
+                    with open(file_path, "r") as save_json:
+                        json_data = json.load(save_json)
+                        json_data['character'].append(select_character.character_state())
+                    with open(file_path, 'w', encoding="UTF-8") as json_file:
+                        json.dump(json_data, json_file, indent=4, ensure_ascii=False)
         else:
             # 계정에 캐릭터가 없으면
-            # 1. 신규 캐릭터 생성 - 사용자 입력
+            # 신규 캐릭터 생성 - 사용자 입력
             character_name = input('\n저장된 캐릭터가 없습니다 새로 생성할 캐릭터명을 입력하세요\n')
-            character = Character(character_name)
-            select_character = character
+            select_character = Character(character_name)
+
+            print(f'{select_character.name} 캐릭터를 생성했습니다.')
+            print(f'스킬은 {select_character.skill} 을 부여 받았습니다')
+            print(f'캐릭터 레벨은 {select_character.level} 이며')
+            print(f'hp는 {select_character.hp} mp는 {select_character.mp}, 공격력은 {select_character.power} 물리방어력은 {select_character.physical_defence} 마법방어력은 {select_character.magic_defence} 경험치는 {select_character.exp}입니다')
 
             # 2. 정보 save.json에 저장
-            if character:
+            if select_character:
                 file_path = './save.json'
                 with open(file_path, "r") as save_json:
                     json_data = json.load(save_json)
-                    json_data['character'].append(character.current_state())
+                    json_data['character'].append(select_character.character_state())
                 with open (file_path, 'w', encoding="UTF-8")as json_file:
                     json.dump(json_data, json_file, indent=4, ensure_ascii=False)
 
@@ -116,7 +139,6 @@ if login_state:
             continue
 
         elif move_input == 'n':
-            select_character.enter_town()
 
             print('현재 착용 중인 아이템은:', ', '.join(select_character.equipment) if select_character.equipment else '없습니다.')
             print('현재 보유 중인 아이템은:', ', '.join(select_character.items) if select_character.items else '없습니다.')
@@ -137,7 +159,7 @@ if login_state:
                                 if 'Weapon' in character['equipment']:
                                     character['power'] += 10
                                 else:
-                                    character['physical_defence'] += 10
+                                    character['physical_defence'] += 2
                                 break
                     with open(file_path, 'w', encoding="UTF-8") as json_file:
                         json.dump(json_data, json_file, indent=4, ensure_ascii=False)
